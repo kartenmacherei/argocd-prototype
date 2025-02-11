@@ -1,0 +1,18 @@
+baseDomain: internal.stage.celebrate.company
+image:
+  repository: 888855808949.dkr.ecr.eu-central-1.amazonaws.com/shop-frontend
+  pullPolicy: Always
+  tag: 948cca8e72e951d9e3e8b7aa16a13e4c3a7a3b3f
+
+aws:
+  ingressClassName: public-alb
+
+appName: shop-frontend
+
+networking:
+  subdomain: shop-frontend
+  
+jwtSecretData:
+  SECRET_KEY: "my-secret-key"
+
+
