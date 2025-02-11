@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::888855808949:role/argocd-prototype
           role-session-name: cdk-deployment
