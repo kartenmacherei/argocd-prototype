@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::888855808949:role/argocd-prototype
+          role-session-name: cdk-deployment
+          aws-region: eu-central-1
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 888855808949.dkr.ecr.eu-central-1.amazonaws.com
+
+      - name: build Docker image
+        run: |
+          docker build -t 888855808949.dkr.ecr.eu-central-1.amazonaws.com/argocd-prototype:${GITHUB_SHA} .
+
+      - name: push Docker image
+        run: |
+          docker push 888855808949.dkr.ecr.eu-central-1.amazonaws.com/argocd-prototype:${GITHUB_SHA}
