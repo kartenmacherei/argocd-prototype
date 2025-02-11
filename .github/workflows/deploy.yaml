@@ -15,7 +15,6 @@ jobs:
         uses: aws-actions/configure-aws-credentials@master
         with:
           role-to-assume: arn:aws:iam::888855808949:role/argocd-prototype
-          role-session-name: cdk-deployment
           aws-region: eu-central-1
 
       - name: Login to Amazon ECR
