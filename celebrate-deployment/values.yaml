@@ -1,16 +1,16 @@
 baseDomain: internal.stage.celebrate.company
 image:
-  repository: 888855808949.dkr.ecr.eu-central-1.amazonaws.com/shop-frontend
+  repository: 888855808949.dkr.ecr.eu-central-1.amazonaws.com/argocd-prototype
   pullPolicy: Always
-  tag: 948cca8e72e951d9e3e8b7aa16a13e4c3a7a3b3f
+  tag: c7d835bf1175cb9013c76c8e7263ea6434054977
 
 aws:
   ingressClassName: public-alb
 
-appName: shop-frontend
+appName: argocd-prototype
 
 networking:
-  subdomain: shop-frontend
+  subdomain: argocd-prototype
   
 jwtSecretData:
   SECRET_KEY: "my-secret-key"
