@@ -39,10 +39,17 @@ jobs:
         run: |
           sed -i 's|tag: .*|tag: "'${GITHUB_SHA}'"|' celebrate-deployment/values.yaml
 
-      - name: Commit and push the updated values.yaml
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+      - name: Push Updated values.yaml
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add celebrate-deployment/values.yaml
           git commit -m "Update image tag to ${GITHUB_SHA} [skip ci]"
-          git push origin main
+          git push git@github.com:kartenmacherei/argocd-prototype.git main
