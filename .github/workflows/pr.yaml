@@ -46,6 +46,11 @@ jobs:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
+    - name: Checkout PR Branch
+      run: |
+        git fetch origin ${{ github.event.pull_request.head.ref }}:$GITHUB_REF_NAME
+        git checkout $GITHUB_REF_NAME
+
     - name: Push Updated values.yaml
       run: |
         git config --global user.name "github-actions[bot]"
