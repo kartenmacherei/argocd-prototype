@@ -52,5 +52,5 @@ jobs:
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git checkout ${{ github.event.pull_request.head.ref }}
         git add celebrate-deployment/values.yaml
-        git commit -m "Update image tag to ${GITHUB_SHA} [skip ci]"
+        git commit -m "Update image tag to ${{github.event.pull_request.head.sha}} [skip ci]"
         git push
