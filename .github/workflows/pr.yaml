@@ -4,8 +4,8 @@ on:
     branches:
       - main
 
-
-  deploy:
+jobs:
+  pr:
     name: PR
     runs-on: ubuntu-latest
     permissions:
