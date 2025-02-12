@@ -35,7 +35,6 @@ jobs:
       run: |
         docker push 888855808949.dkr.ecr.eu-central-1.amazonaws.com/argocd-prototype:${{github.event.pull_request.head.sha}}
 
-
     - name: Setup SSH Key
       run: |
         mkdir -p ~/.ssh
@@ -46,7 +45,7 @@ jobs:
     - name: Checkout PR Branch
       run: |
         git fetch origin ${{ github.event.pull_request.head.ref }}:$GITHUB_REF_NAME
-        git checkout $GITHUB_REF_NAME
+        git checkout ${{ github.event.pull_request.head.ref }}
 
     - name: Update image tag in Helm values.yaml
       run: |
