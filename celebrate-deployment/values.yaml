@@ -4,6 +4,7 @@ image:
   pullPolicy: Always
   tag: "1f17352f78a64d0e7a58007fba232f9b207d2d8f"
 
+
 aws:
   ingressClassName: public-alb
 
