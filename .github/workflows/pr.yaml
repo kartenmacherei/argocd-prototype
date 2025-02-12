@@ -4,14 +4,14 @@ on:
     branches:
       - main
 
-
-  deploy:
+jobs:
+  pr:
     name: PR
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: read
-  
+      contents: write
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -35,10 +35,6 @@ on:
       run: |
         docker push 888855808949.dkr.ecr.eu-central-1.amazonaws.com/argocd-prototype:${{github.event.pull_request.head.sha}}
 
-    - name: Update image tag in Helm values.yaml
-      run: |
-        sed -i 's|tag: .*|tag: "'${{github.event.pull_request.head.sha}}'"|' celebrate-deployment/values.yaml
-
     - name: Setup SSH Key
       run: |
         mkdir -p ~/.ssh
@@ -46,11 +42,19 @@ on:
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan github.com >> ~/.ssh/known_hosts
 
+    - name: Checkout PR Branch
+      run: |
+        git fetch origin ${{ github.event.pull_request.head.ref }}:$GITHUB_REF_NAME
+        git checkout ${{ github.event.pull_request.head.ref }}
+
+    - name: Update image tag in Helm values.yaml
+      run: |
+        sed -i 's|tag: .*|tag: "'${{github.event.pull_request.head.sha}}'"|' celebrate-deployment/values.yaml
+
     - name: Push Updated values.yaml
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git checkout ${{ github.event.pull_request.head.ref }}
         git add celebrate-deployment/values.yaml
-        git commit -m "Update image tag to ${GITHUB_SHA} [skip ci]"
-        git push
+        git commit -m "Update image tag to ${{github.event.pull_request.head.sha}} [skip ci]"
+        git push origin ${{ github.event.pull_request.head.ref }}
