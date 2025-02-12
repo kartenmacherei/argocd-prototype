@@ -2,7 +2,7 @@ baseDomain: internal.stage.celebrate.company
 image:
   repository: 888855808949.dkr.ecr.eu-central-1.amazonaws.com/argocd-prototype
   pullPolicy: Always
-  tag: "f2eb86c909b923a34ca01313a6fe02fe29c4520d"
+  tag: "62a5e7fc2241774bb0f1946302888876b74e201d"
 
 
 aws:
