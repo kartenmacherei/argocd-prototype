@@ -1,6 +1,12 @@
 name: pr
 on:
   pull_request:
+    branches:
+      - main
+
+  push:
+    branches:
+      - '**'  # Triggers on push to any branch
 
 jobs:
   pr:
