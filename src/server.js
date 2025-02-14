@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-    res.send("Hello, ArgoCD! MAIN!!");
+    res.send("Hello, ArgoCD! NEW VERSION");
 });
 
 app.listen(port, () => {
