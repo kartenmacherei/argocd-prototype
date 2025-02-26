@@ -34,6 +34,6 @@ jobs:
       - name: Deploy CDK
         working-directory: aws
         env:
-          AWS_REGION: ${{vars.NAME}}
+          NAME: ${{vars.NAME}}
         run: |
           npm run cdk deploy -- --require-approval never
