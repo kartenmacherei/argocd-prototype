@@ -28,7 +28,7 @@ export class AwsStack extends cdk.Stack {
       managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('SecretsManagerReadWrite')],
     });
 
-    new secretsmanager.Secret(this, 'ShopFrontendSecret', {
+    new secretsmanager.Secret(this, 'ArgocdProtoTypeSecret', {
       secretName: 'argocd-prototype-secret',
       secretObjectValue: {
         NAME: cdk.SecretValue.unsafePlainText(StackConfiguration.getName()),
