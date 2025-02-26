@@ -40,9 +40,9 @@ jobs:
         if: ${{ inputs.environment != '' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ vars.DEPLOYMENT_ROLE }}
+          role-to-assume: arn:aws:iam::888855808949:role/argocd-prototype-deployment-role
           role-session-name: cdk-deployment
-          aws-region: ${{ vars.AWS_REGION }}
+          aws-region: eu-central-1
 
       - name: Login to Amazon ECR
         if: ${{ inputs.environment != '' }}
