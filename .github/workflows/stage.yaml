@@ -12,7 +12,14 @@ on:
 
 jobs:
 
+  deploy_cdk:
+    uses: ./.github/workflows/deploy-cdk.yaml
+    with:
+      environment: stage
+    secrets: inherit
+
   stage-build:
+    needs: deploy_cdk
     uses: ./.github/workflows/build.yml
     secrets: inherit
     with:

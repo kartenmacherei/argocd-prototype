@@ -1,0 +1,39 @@
+name: Deploy CDK
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::888855808949:role/argocd-prototype-deployment-role
+          role-session-name: cdk-deployment
+          aws-region: eu-central-1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: aws/.nvmrc
+
+      - name: Install Dependencies
+        working-directory: aws
+        run: npm install
+
+      - name: Deploy CDK
+        working-directory: aws
+        env:
+          AWS_REGION: ${{vars.NAME}}
+        run: |
+          npm run cdk deploy -- --require-approval never
