@@ -1,0 +1,21 @@
+name: Stage Build
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+
+  stage-build:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+    with:
+      environment: stage
+      image_tag: ${{ github.sha }}
+      tag_latest: true

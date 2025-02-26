@@ -1,0 +1,62 @@
+name: Build
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'GitHub environment to deploy to. Used for secrets and variables.'
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      environment:
+        description: 'GitHub environment to deploy to. Used for secrets and variables.'
+        required: true
+        type: string
+      image_tag:
+        description: 'Tag for the built image'
+        required: true
+        type: string
+      tag_latest:
+        description: 'Tag for the latest image'
+        default: false
+        type: boolean
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build and push docker images
+    environment: ${{ inputs.environment || 'CI' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: configure aws credentials
+        if: ${{ inputs.environment != '' }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.DEPLOYMENT_ROLE }}
+          role-session-name: cdk-deployment
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        if: ${{ inputs.environment != '' }}
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ inputs.environment != '' }}
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/argocd-prototype:${{ inputs.image_tag }}
+            ${{ inputs.tag_latest == true && format('{0}/argocd-prototype:latest', steps.login-ecr.outputs.registry) || '' }}
