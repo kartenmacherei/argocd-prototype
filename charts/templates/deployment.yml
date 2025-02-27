@@ -20,9 +20,34 @@ spec:
         instrumentation.opentelemetry.io/inject-sdk: "opentelemetry-operator-system/default"
         reloader.stakater.com/auto: "true"
     spec:
+      serviceAccountName: {{ .Values.appName }}-serviceaccount
       containers:
         - name: {{ .Values.appName }}-container
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.networking.containerPort }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+          volumeMounts:
+            - name: secrets
+              mountPath: /mnt/secrets
+              readOnly: true
+          env:
+            {{- range .Values.secrets.keys }}
+            - name: {{ . }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Values.appName }}-secret
+                  key: {{ . }}
+            {{- end }}
+
+      volumes:
+        - name: secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{ .Values.appName }}-secret-provider
