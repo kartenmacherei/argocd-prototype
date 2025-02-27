@@ -12,22 +12,22 @@ networking:
   baseDomain: internal.stage.celebrate.company
   ingressClassName: public-alb
 
-resources:
-  requests:
-    cpu: 200m
-    memory: 128Mi
-
-hpa:
-  minReplicas: 1
-  maxReplicas: 10
-  cpuTarget: 70
-
-
-aws:
-  roleArn: arn:aws:iam::888855808949:role/argocd-secrets-role
-
-
-secrets:
-  awsSecretName: argocd-prototype
-  keys:
-    - NAME
+#resources:
+#  requests:
+#    cpu: 200m
+#    memory: 128Mi
+#
+#hpa:
+#  minReplicas: 1
+#  maxReplicas: 10
+#  cpuTarget: 70
+#
+#
+#aws:
+#  roleArn: arn:aws:iam::888855808949:role/argocd-secrets-role
+#
+#
+#secrets:
+#  awsSecretName: argocd-prototype
+#  keys:
+#    - NAME
