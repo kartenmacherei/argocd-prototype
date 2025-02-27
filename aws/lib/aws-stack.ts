@@ -29,7 +29,7 @@ export class AwsStack extends cdk.Stack {
     });
 
     new secretsmanager.Secret(this, 'ArgocdProtoTypeSecret', {
-      secretName: 'argocd-prototype-secret',
+      secretName: 'argocd-prototype',
       secretObjectValue: {
         NAME: cdk.SecretValue.unsafePlainText(StackConfiguration.getName()),
       },
