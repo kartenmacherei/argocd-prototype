@@ -1,0 +1,47 @@
+baseDomain: internal.stage.celebrate.company
+
+image:
+  repository: 888855808949.dkr.ecr.eu-central-1.amazonaws.com/argocd-prototype
+  pullPolicy: Always
+  tag: latest
+
+aws:
+  roleArn: arn:aws:iam::888855808949:role/shop-frontend-secrets-role
+
+appName: argocd-prototype
+
+networking:
+  subdomain: argocd-prototype
+  containerPort: 3000
+  baseDomain: internal.stage.celebrate.company
+  ingressClassName: public-alb
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 128Mi
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 10
+  cpuTarget: 70
+
+secrets:
+  awsSecretName: argocd-prototype
+  keys:
+    - NEXTAUTH_SECRET
+    - NEXTAUTH_URL
+    - SHOP_KEY
+    - SHOP_CURRENCY
+    - SHOP_URL
+    - CTP_PROJECT_KEY
+    - CTP_CLIENT_SECRET
+    - CTP_CLIENT_ID
+    - CTP_AUTH_URL
+    - CTP_API_URL
+    - CTP_SCOPES
+    - CTP_APPLICATION_KEY
+    - CTP_SESSION_URL
+    - SB_SPACE_ID
+    - SB_ACCESS_TOKEN
+    - SB_SITE_ROOT_FOLDER

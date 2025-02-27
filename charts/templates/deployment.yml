@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.appName }}
+  labels:
+    app: {{ .Values.appName }}
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+      annotations:
+        secrets-store.csi.k8s.io/rotation-poll-interval: "60s"
+        instrumentation.opentelemetry.io/inject-sdk: "opentelemetry-operator-system/default"
+        reloader.stakater.com/auto: "true"
+    spec:
+      containers:
+        - name: {{ .Values.appName }}-container
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.networking.containerPort }}
