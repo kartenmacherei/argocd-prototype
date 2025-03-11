@@ -4,7 +4,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
-    res.status(500).send(`Hello TEST`);
+    console.log('a new request has been Logged')
+    res.status(200).send(`Hello TEST`);
 });
 
 app.listen(port, () => {
