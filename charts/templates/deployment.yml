@@ -20,6 +20,7 @@ spec:
         instrumentation.opentelemetry.io/inject-sdk: "opentelemetry-operator-system/default"
         reloader.stakater.com/auto: "true"
     spec:
+      serviceAccountName: {{ .Values.appName }}-serviceaccount
       containers:
         - name: {{ .Values.appName }}-container
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
