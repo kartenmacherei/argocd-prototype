@@ -8,7 +8,7 @@ receiveMessages();
 
 app.get("/", (req, res) => {
     console.log('a new request has been Logged')
-    res.status(200).send(`Hello test6`);
+    res.status(200).send(`IS it still working?`);
 });
 
 app.listen(port, () => {
