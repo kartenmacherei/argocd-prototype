@@ -8,7 +8,7 @@ receiveMessages();
 
 app.get("/", (req, res) => {
     console.log('a new request has been Logged')
-    res.status(200).send(`Hello Argo 3332`);
+    res.status(200).send(`Hello Argo SSD`);
 });
 
 app.listen(port, () => {
