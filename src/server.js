@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 
 app.get("/health", (req, res) => {
     console.log('a new request has been Logged')
-    res.status(200).send(`Hello Argo`);
+    res.status(200).send(`Health endpoint`);
 });
 
 app.listen(port, () => {
